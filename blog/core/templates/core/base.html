@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+
+    <title>Blog Week</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    {% load static %}
+    <link href={% static "core/css/bootstrap.min.css" %} rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href={% static "css/blog.css" %} rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="mt-1 navbar navbar-expand-lg bg-info" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a href="/"
+                    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                    <img class="bi me-2" width="40" height="32" src={% static "core/img/bootstrap-logo-white.svg" %}
+                        alt="">
+                    <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="img/"/></svg> -->
+                    <span class="fs-4">Blog Week</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="mt-2">
+
+            <div class="row g-5">
+
+                <div class="col-md-8">
+
+                    <!-- CUERPO CON EL LISTADO DE TODOS LOS POST EN TARJETAS o EL CONTENIDO DEL POST QUE SE ESTÁ LEYENDO -->
+                    {% block content %} {% endblock %}
+
+                </div>
+
+                <aside class="col-md-4">
+                    <div class="position-sticky" style="top: 2rem;">
+                        <div class="p-4 mb-3 bg-body-tertiary rounded">
+                            <h4 class="fst-italic">Acerca de</h4>
+                            <p class="mb-0">{{ ABOUT }}</p>
+                        </div>
+
+                        <div>
+                            <h4 class="fst-italic">Últimos Posts</h4>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                        href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96"
+                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <rect width="100%" height="100%" fill="#777" />
+                                        </svg>
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">Example blog post title</h6>
+                                            <small class="text-body-secondary">January 15, 2024</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                        href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96"
+                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <rect width="100%" height="100%" fill="#777" />
+                                        </svg>
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">This is another blog post title</h6>
+                                            <small class="text-body-secondary">January 14, 2024</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                        href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96"
+                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <rect width="100%" height="100%" fill="#777" />
+                                        </svg>
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
+                                            <small class="text-body-secondary">January 13, 2024</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4">
+                            <h4 class="fst-italic">Categorías</h4>
+                            <ol class="list-unstyled mb-0">
+
+                                {% for item in categories %}
+                                    <li><a href={% url "category" item.id %}>{{item.name}}</a></li>
+                                {% endfor %}    
+
+                            </ol>
+                        </div>
+
+                        <div class="p-4">
+                            <h4 class="fst-italic">Archivos</h4>
+                            <ol class="list-unstyled mb-0">
+                                {% for item in dates %}
+                                    <li><a href={% url "dates" item.month item.year %}>{{ item|date:"F Y"|capfirst }}</a></li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+
+                        <div class="p-4">
+                            <h4 class="fst-italic">Nuestras redes</h4>
+
+                            <ol class="list-unstyled">
+
+                                {% for item in redes_sociales %}
+                                    {% if item.url %}    
+                                        <li><a href={{ item.url }}><i class="{{ item.icon }}"></i> {{ item.name }}</a></li>                                
+                                    {% endif %}
+                                {% endfor%}
+
+
+                                <!-- {% if KEY_GITHUB.url %}
+                                    <li><a href={{ KEY_GITHUB.url }}><i class="{{ KEY_GITHUB.icon }}"></i> GitHub</a></li>
+                                {% endif %}
+
+                                {% if KEY_FACEBOOK.url %}
+                                    <li><a href={{ KEY_FACEBOOK.url }}><i class="{{ KEY_FACEBOOK.icon }}"></i> Facebook</a></li>
+                                {% endif %}
+
+                                {% if KEY_DISCORD.url %}
+                                    <li><a href={{ KEY_DISCORD.url }}><i class="{{ KEY_DISCORD.icon }}"></i> Discord</a></li>
+                                {% endif %}
+
+                                {% if KEY_INSTAGRAM.url %}
+                                    <li><a href={{ KEY_INSTAGRAM.url }}><i class="{{ KEY_INSTAGRAM.icon }}"></i> Instagram</a></li>
+                                {% endif %}
+
+                                {% if KEY_SLACK.url %}
+                                    <li><a href={{ KEY_SLACK.url }}><i class="{{ KEY_SLACK.icon }}"></i> Slack</a></li>
+                                {% endif %}
+
+                                {% if KEY_WHATSAPP.url %}
+                                    <li><a href={{ KEY_WHATSAPP.url }}><i class="{{ KEY_WHATSAPP.icon }}"></i> WhatsApp</a></li>
+                                {% endif %}
+
+                                {% if KEY_TWITTER.url %}
+                                    <li><a href={{ KEY_TWITTER.url }}><i class="{{ KEY_TWITTER.icon }}"></i> Twitter</a></li>
+                                {% endif %} -->
+
+                            </ol>
+                        </div>
+                    </div>
+                </aside>
+
+
+            </div>
+
+
+        </main>
+
+        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+            <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
+                    href="https://twitter.com/mdo">@mdo</a>.</p>
+            <p class="mb-0">
+                <a href="#">Back to top</a>
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

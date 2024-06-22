@@ -1,0 +1,69 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card mb-3 bg-success bg-opacity-25">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src={{ author.profile_picture.url }} class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><strong>Autor: </strong>{{author.user.last_name}}, {{author.user.first_name}} ({{ author.user.username }})</h5>
+                <p class="card-text">{{ author.biography }}</p>
+                <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="alert alert-success" role="alert">
+    Todos los posts del autor: <strong>{{author.user.last_name}}, {{author.user.first_name}} ({{ author.user.username }})</strong>
+    <p>{{author.biography}}</p>
+</div> -->
+
+
+<!-- <div class="row mb-2"> -->
+    {% for post in author.get_posts.all %}
+
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-5">
+                <img src={{ post.image.url }} class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <strong class="d-inline-block mb-2 text-primary">{{ post.category }}</strong>
+                    <h4 class="mb-0">{{ post.title }}</h4>
+                    <div class="mb-1 text-muted">{{ post.created|date:"d M Y" }}</div>
+                    <p class="card-text mb-auto">{{ post.excerpt }}</p>
+                    <p class="card-text"><small class="text-muted"><a href={% url "post" post.id %}
+                                class="stretched-link">Seguir
+                                leyendo</a></small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% empty %}
+    <div class="alert alert-danger" role="alert">
+        <strong>No hay posts del autor: {{author.user.last_name}}, {{author.user.first_name}} ({{ author.user.username }})</strong>
+    </div>
+
+    {% endfor %}
+
+    <hr>
+    
+    {% if request.path != '/' %}
+    <div class="my-3">
+        <a class="btn btn-success rounded-pill" href={% url "home" %}>Volver al inicio</a>
+    </div>
+
+    {% endif %}
+
+
+<!-- </div> -->
+
+{% endblock %}
