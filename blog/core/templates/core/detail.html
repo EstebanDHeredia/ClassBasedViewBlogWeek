@@ -9,17 +9,11 @@
         <div class="col-auto d-none d-lg-block">
             <img src={{ post.image.url }} class="img-fluid" alt="">
         </div>
-        <!-- <svg class="bd-placeholder-img" width="100%" height="450" xmlns="http://www.w3.org/2000/svg" role="img"
-            aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                dy=".3em">Thumbnail</text>
-        </svg> -->
     </div>
 
-    <strong class="d-inline-block mb-2 mt-3 text-primary"><a href={% url 'category' post.category.id %}>{{ post.category }}</a></strong>
+    <strong class="d-inline-block mb-2 mt-3 text-primary"><a href={% url 'category' %}?cat={{post.category.id}}>{{post.category }}</a></strong>
     <h2 class="display-5 link-body-emphasis mb-1">{{ post.title }}</h2>
-    <p class="blog-post-meta">{{ post.created|date:"d M Y" }} por <a href={% url "author" post.author.id %}>{{ post.author }}</a></p>
+    <p class="blog-post-meta">{{ post.created|date:"d M Y" }} por <a href={% url "author" %}?aut={{post.author.id}}>{{post.author }}</a></p>
 
     <p class="lead my-3">{{ post.excerpt }}</p>
 
@@ -29,7 +23,7 @@
 
     <strong>Etiquetas:</strong>
     {% for tag in post.tags.all %}
-        <span class="badge text-bg-info">{{ tag.name|upper }}</span>
+    <span class="badge text-bg-info">{{ tag.name|upper }}</span>
     {% endfor %}
 
     <br><br>
@@ -40,19 +34,19 @@
                 <form action="{% url 'like_post' post.id %}" method="post">
                     {% csrf_token %}
                     {% if user.is_authenticated %}
-                        {% if liked %}
-                            <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
-                                Me gusta <span class="badge bg-secondary">{{ total_likes }}</span>
-                            </button>
-                        {% else %}
-                            <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" enabled>
-                                Me gusta <span class="badge bg-secondary">{{ total_likes }}</span>
-                            </button>
-                        {% endif %}
+                    {% if liked %}
+                    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
+                        Me gusta <span class="badge bg-secondary">{{ total_likes }}</span>
+                    </button>
                     {% else %}
-                        <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
-                            Me gusta <span class="badge bg-secondary">{{ total_likes }}</span>
-                        </button>
+                    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" enabled>
+                        Me gusta <span class="badge bg-secondary">{{ total_likes }}</span>
+                    </button>
+                    {% endif %}
+                    {% else %}
+                    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
+                        Me gusta <span class="badge bg-secondary">{{ total_likes }}</span>
+                    </button>
                     {% endif %}
                 </form>
             </div>
@@ -60,22 +54,22 @@
                 <form action="{% url 'dislike_post' post.id %}" method="post">
                     {% csrf_token %}
                     {% if user.is_authenticated %}
-                        {% if disliked %}
-                            <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
-                            No me gusta <span class="badge bg-secondary">{{ total_dislikes }}</span>
-                            </button>
-                        {% else %}
-                            <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" enabled>
-                            No me gusta <span class="badge bg-secondary">{{ total_dislikes }}</span>
-                            </button>
-                        {% endif %}
+                    {% if disliked %}
+                    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
+                        No me gusta <span class="badge bg-secondary">{{ total_dislikes }}</span>
+                    </button>
                     {% else %}
-                        <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
-                            No me gusta <span class="badge bg-secondary">{{ total_dislikes }}</span>
-                        </button>
+                    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" enabled>
+                        No me gusta <span class="badge bg-secondary">{{ total_dislikes }}</span>
+                    </button>
+                    {% endif %}
+                    {% else %}
+                    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}" disabled>
+                        No me gusta <span class="badge bg-secondary">{{ total_dislikes }}</span>
+                    </button>
                     {% endif %}
                 </form>
-            </div>                
+            </div>
         </div>
     </div>
 </article>

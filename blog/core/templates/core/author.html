@@ -19,15 +19,10 @@
     </div>
 </div>
 
-<!-- <div class="alert alert-success" role="alert">
-    Todos los posts del autor: <strong>{{author.user.last_name}}, {{author.user.first_name}} ({{ author.user.username }})</strong>
-    <p>{{author.biography}}</p>
-</div> -->
 
-
-<!-- <div class="row mb-2"> -->
     {% for post in author.get_posts.all %}
 
+    {% if post.published %}
     <div class="card mb-3">
         <div class="row g-0">
             <div class="col-md-5">
@@ -46,6 +41,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     {% empty %}
     <div class="alert alert-danger" role="alert">

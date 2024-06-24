@@ -22,7 +22,8 @@
 
 <!-- <div class="row mb-2"> -->
 {% for post in posts %}
-{% if forloop.first and posts.number == 1 %}
+
+{% if forloop.first and page_obj.number == 1 %}
 {% if request.path == '/' %}
 <div class="p-4 p-md-5 mb-4 rounded text-bg-info ">
     <div class="col-lg-12 px-0">
@@ -64,24 +65,25 @@
             <a class="page-link" href="?page=1">Inicio</a>
         </li>
 
-        <li class="page-item {% if not posts.has_previous %}disabled{% endif %}">
+        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
             <a class="page-link"
-                href="{% if posts.has_previous %}?page={{ posts.previous_page_number }}{% endif %}">Anterior</a>
+                href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% endif %}">Anterior</a>
         </li>
 
-        {% for i in aux %}
-        <li class="page-item {% if posts.number == forloop.counter %}active{% endif %}" aria-current="page">
+
+        {% for i in paginator.page_range %}
+        <li class="page-item {% if page_obj.number == forloop.counter %}active{% endif %}" aria-current="page">
             <a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
         </li>
         {% endfor %}
 
-        <li class="page-item {% if not posts.has_next %}disabled{% endif %}">
+        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
             <a class="page-link"
-                href="{% if posts.has_next %}?page={{ posts.next_page_number }}{% endif %}">Siguiente</a>
+                href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% endif %}">Siguiente</a>
         </li>
 
         <li class="page-item">
-            <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Fin</a>
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Fin</a>
         </li>
 
     </ul>
