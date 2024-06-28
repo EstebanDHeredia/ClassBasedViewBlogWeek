@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import dates, likeView, disLikeView, PostListView, PostDetailView, CategoryListView, AuthorListView
+from .views import dates, likeView, disLikeView, PostListView, PostDetailView, CategoryListView, AuthorListView, PostCreateView
 
 
 urlpatterns = [
@@ -15,5 +15,7 @@ urlpatterns = [
     path("like/<int:pk>", likeView, name="like_post"),
     # dislikes de un post
     path("dislike/<int:pk>", disLikeView, name="dislike_post"),
+    # Crear post:
+    path('create/', PostCreateView.as_view(), name='create'),
 ]
 

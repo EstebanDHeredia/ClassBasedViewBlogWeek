@@ -1,14 +1,17 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Category, Author
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 import datetime
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
 from django.views.generic.list import ListView # Importo la clase genérica que me permite hacer una vista de listado
 from django.views.generic.detail import DetailView  # Importo la clase genérica que me va a permitir mostrar un post en particular
+from django.views.generic.edit import CreateView # Importo la clase que me permite crear un Post
+from .forms import PostForm
 
 # Create your views here.
 class PostListView(ListView):
@@ -86,6 +89,28 @@ class AuthorListView(ListView):
                 
         return super().get_queryset()
 
+
+# Crear un Post
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm   # Le indico que tiene que utilizar el formulario que creé en forms.py, el cual
+                            # contiene los campos del Post. Esto no quiere decir que yo pueda acceder solo
+                            # a los campos que me muestra el formulario. Como yo indico en model que el modelo
+                            # que voy a utilizar es el de Post, puedo acceder a todos los otros campos,
+                            # de hecho en la funcion form_valid, le indico qué valor debe tomar el campo author
+    
+    def form_valid(self, form):
+        author = Author.objects.get(user=self.request.user) # Busco en tabla autores el autor que está logueado
+        print("_____________________________")
+        print(str(author))
+        print("_____________________________")
+
+        form.instance.author = author # Le indico que el author del Post va a ser el usuario que está logueado
+        return super().form_valid(form)
+    
+    success_url = reverse_lazy('home') # Le indico a dónde debe volver si el post se creo correctamente
+
+
 def dates(request, month, year):
     try:
         posts = Post.objects.filter(published = True, created__month = month, created__year =year)
@@ -120,6 +145,7 @@ def disLikeView(request, pk):
         return HttpResponseRedirect(reverse('post', args=[post.id])) # Vuelvo a la pagina del detalle del post con utlizando reverse para obtner la url del mismo y agregando el paramentro del id del post
     except:
         return HttpResponseRedirect(reverse('post', args=[post.id]))
+
 
 
 # def home(request):
