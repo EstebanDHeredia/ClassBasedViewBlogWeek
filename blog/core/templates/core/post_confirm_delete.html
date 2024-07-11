@@ -1,0 +1,37 @@
+<!-- ESTE HTML ES EL QUE ME BUSCA POR DEFECTO LA VISTA POSTDELETEVIEW -->
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% include "core/includes/submenu.html" %}
+
+<div class="mb-5">
+    <h2 class="text-center mt-2">Eliminar Post</h2>
+    <hr>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="card text-white bg-danger mb-3 mx-auto" style="max-width: 18rem;">
+            <div class="card-header">CONFIRMAR ACCIÓN</div>
+                <div class="card-body">
+                <h5 class="card-title">Borrando Post</h5>
+                <p class="card-text">Está seguro de eliminar el post: <strong>"{{ post }}"</strong>.?</p>
+                    <div class="text-center">
+                        <input class="btn  btn-light" type="submit" value="SI, BORRAR EL POST">
+                    </div>
+                </div>
+        </div>
+
+    </form>
+</div>
+<hr>
+
+{% if request.path != '/' %}
+<div class="my-3">
+    <a class="btn btn-primary rounded-pill" href={% url "home" %}>Volver al inicio</a>
+</div>
+{% endif %}
+
+{% endblock %}

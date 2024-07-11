@@ -45,11 +45,6 @@
 
                 <aside class="col-md-4">
                     <div class="position-sticky" style="top: 2rem;">
-                        <div class="p-4 mb-3 bg-body-tertiary rounded">
-                            <h4 class="fst-italic">Acerca de</h4>
-                            <p class="mb-0">{{ ABOUT }}</p>
-                        </div>
-
                         <div>
                             <h4 class="fst-italic">Últimos Posts</h4>
                             <ul class="list-unstyled">
@@ -160,6 +155,9 @@
 
                             </ol>
                         </div>
+                        <div class="p-4 bg-body-tertiary rounded">
+                            <a href={% url 'about' %}><strong>Acerca de nosotros...</strong></a>
+                        </div>
                     </div>
                 </aside>
 
@@ -169,7 +167,7 @@
 
         </main>
 
-        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+        <footer class="py-5 mt-3 text-center text-body-secondary bg-body-tertiary">
             <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
                     href="https://twitter.com/mdo">@mdo</a>.</p>
             <p class="mb-0">

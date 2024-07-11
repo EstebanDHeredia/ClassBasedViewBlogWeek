@@ -73,8 +73,8 @@ class Post(models.Model):
     author = models.ForeignKey(
         Author, on_delete=models.CASCADE, verbose_name="Autor", related_name="get_posts")
     tags = models.ManyToManyField(Tag, verbose_name="Etiquetas")
-    likes = models.ManyToManyField(User, related_name="blog_posts", verbose_name="Me gusta")
-    dislikes = models.ManyToManyField(User, verbose_name="No me gusta")
+    likes = models.ManyToManyField(User, related_name="blog_posts", verbose_name="Me gusta", blank=True, null=True)
+    dislikes = models.ManyToManyField(User, verbose_name="No me gusta", blank=True, null=True)
     
     def total_likes(self):
         me_gusta = self.likes.count()

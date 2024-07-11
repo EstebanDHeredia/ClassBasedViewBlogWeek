@@ -1,0 +1,21 @@
+<!-- ESTE HTML ES EL QUE ME BUSCA POR DEFECTO LA VISTA POSTDELETEVIEW -->
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="mb-5">
+    <h2 class="text-center mt-2">Acerca de Nosotros...</h2>
+    <hr>
+    {{ ABOUT }}
+</div>
+<hr>
+
+{% if request.path != '/' %}
+<div class="my-3">
+    <a class="btn btn-primary rounded-pill" href={% url "home" %}>Volver al inicio</a>
+</div>
+{% endif %}
+
+{% endblock %}

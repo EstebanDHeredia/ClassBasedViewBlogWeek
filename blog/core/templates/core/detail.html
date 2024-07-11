@@ -78,7 +78,22 @@
 
 {% if request.path != '/' %}
 <div class="my-3">
-    <a class="btn btn-success rounded-pill" href={% url "home" %}>Volver al inicio</a>
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- Columna izquierda -->
+        <div>
+            <a class="btn btn-success rounded-pill" href="{% url 'home' %}">Volver al inicio</a>
+        </div>
+
+        <!-- Columna derecha -->
+        <div>
+            <!-- Solo me va a mostrar los botones de Editar y Eliminar si el usuario logueado
+            es el usuario que creó el post -->
+            {% if request.user == post.author.user %}
+            <a class="btn btn-info rounded-pill" href="{% url 'update' post.id %}">Editar</a>
+            <a class="btn btn-danger rounded-pill" href="{% url 'delete' post.id %}">Eliminar</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 {% endif %}

@@ -11,6 +11,9 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.list import ListView # Importo la clase genérica que me permite hacer una vista de listado
 from django.views.generic.detail import DetailView  # Importo la clase genérica que me va a permitir mostrar un post en particular
 from django.views.generic.edit import CreateView # Importo la clase que me permite crear un Post
+from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
+from django.views.generic.base import TemplateView #Esta vista basada en clase solo me renderiza un template, lo voy a utilizar para que me renderice la pagina aboutme
 from .forms import PostForm
 
 # Create your views here.
@@ -101,15 +104,35 @@ class PostCreateView(CreateView):
     
     def form_valid(self, form):
         author = Author.objects.get(user=self.request.user) # Busco en tabla autores el autor que está logueado
-        print("_____________________________")
-        print(str(author))
-        print("_____________________________")
-
         form.instance.author = author # Le indico que el author del Post va a ser el usuario que está logueado
         return super().form_valid(form)
     
     success_url = reverse_lazy('home') # Le indico a dónde debe volver si el post se creo correctamente
 
+
+# Actualizar un Post
+class PostUpdateView(UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name_suffix = "_update_form"   # el template que va a buscar para renderizar el formulario
+                                            # va a set post_update_form.html
+    
+    # Establezco la url a la que tiene que redirigirse una vez actualizado el post
+    # En este caso lo vuelvo a la misma página de update del post que acabo de actualizar
+    # y para que se observe que el post se modificó correctamente, lo voy a mostrar con
+    # un cartel en el template, si la palabra 'ok' está en la url                   
+    def get_success_url(self) -> str:
+        return reverse_lazy('update', args=[self.object.id] ) + '?ok'
+    
+# Eliminar un Post
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('home')
+    
+# Acerca de...
+class AboutPageView(TemplateView):
+    template_name = "core/about.html"
+    
 
 def dates(request, month, year):
     try:
